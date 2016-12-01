@@ -5,6 +5,7 @@ tornado WebSocket handler
 """
 
 import time
+import json
 from tornado import websocket
 from tornado.log import app_log
 from hub import Subscriber
@@ -31,6 +32,15 @@ class PushWebSocket(websocket.WebSocketHandler):
         app_log.debug('client message: {}'.format(message))
         self.timestamp = time.time()
         # to-do: 定义 认证/订阅/退订 消息格式
+        try:
+            content = json.loads(message)
+            op = content['action']
+            if op == 'sub':
+                self.sub.subscribe(content['data'])
+            elif op == 'unsub':
+                self.sub.unsubscribe()
+        except:
+            pass
 
     def on_close(self):
         if hasattr(self, 'sub'):
