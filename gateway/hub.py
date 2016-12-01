@@ -2,6 +2,7 @@
 
 import os
 import json
+import re
 import zmq
 from zmq.eventloop.zmqstream import ZMQStream
 from tornado.log import app_log
@@ -77,7 +78,7 @@ class Subscriber(object):
             topic = data.get('topic', '')
             if not topic:
                 return
-            if self.topic.startswith(topic):
+            if re.match(r'^{}(:.+)?$'.format(topic), self.topic):
                 self.callback(body)
         except:
             pass
