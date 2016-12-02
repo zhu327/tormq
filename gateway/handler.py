@@ -34,11 +34,43 @@ class PushWebSocket(websocket.WebSocketHandler):
         # to-do: 定义 认证/订阅/退订 消息格式
         try:
             content = json.loads(message)
-            op = content['action']
-            if op == 'sub':
-                self.sub.subscribe(content['data'])
-            elif op == 'unsub':
+            event = content['event']
+            if event == 'authenticate':
+                u'''
+                {
+                    "event": "authenticate",
+                    "token": "auth-token",
+                    "topic": "ehr:api"
+                }
+                认证并重组订阅topic: ehr:api:{user_id}
+                '''
+                pass # 具体认证实现依赖于应用
+            elif event == 'subscribe':
+                u'''
+                订阅
+                {
+                    "event": "subscribe",
+                    "topic": "ehr:api"
+                }
+                '''
+                topic = content['topic']
+                self.sub.subscribe(topic)
+            elif event == 'unsubscribe':
+                u'''
+                退订
+                {
+                    "event": "unsubscribe",
+                }
+                '''
                 self.sub.unsubscribe()
+            elif event == 'ping':
+                u'''
+                ping
+                {
+                    "event": "ping",
+                }
+                '''
+                pass
         except:
             pass
 

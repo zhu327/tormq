@@ -74,7 +74,7 @@ pub.send('ehr:api', 'hello world') # 话题, 消息
 var s = new WebSocket('ws://localhost:8000/ws');
 
 s.onopen = function(){
-	this.send('{"action":"sub","data":"ehr:api"}');
+	this.send('{"event":"subscribe","topic":"ehr:api"}');
 }
 
 s.onmessage = function(v){
