@@ -16,7 +16,8 @@ loop.install()
 
 settings = {
     'xsrf_cookies': False,
-    'debug' : True
+    'debug' : True,
+    'websocket_ping_interval': 60 # 定时发送ping, 保持心跳
 }
 
 
