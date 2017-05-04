@@ -3,6 +3,9 @@ u"""
 启动tornado服务
 """
 
+import logging
+logging.basicConfig(level=logging.DEBUG)
+
 import sys
 import getopt
 import tornado
@@ -16,7 +19,8 @@ loop.install()
 
 settings = {
     'xsrf_cookies': False,
-    'debug' : True,
+    'debug': True,
+    'autoreload': True,
     'websocket_ping_interval': 60 # 定时发送ping, 保持心跳
 }
 

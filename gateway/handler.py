@@ -13,20 +13,16 @@ from hub import Subscriber
 class PushWebSocket(websocket.WebSocketHandler):
     u"""
     消息推送WebSocket连接
+
+    认证:
+    可以考虑重写prepare方法获取cookie/querystring来做认证
     """
     def check_origin(self, origin):
-        u"""
-        跨域检查
-
-        在这里可以考虑做token认证
-        通过self.request.headers可以拿到ws初始http请求头
-        如果认证不通过直接拒绝连接
-        """
         return True
 
     def open(self):
         u"""
-        如果在check_origin做了认证
+        如果在prepare做了认证
         可以在连接open后直接self.sub.subscribe()订阅默认用户id的topic
         """
         self.sub = Subscriber(self.push)
